@@ -92,26 +92,26 @@ class _PinAuthenticationState extends State<PinAuthentication> {
   Widget buildNumberRow(List<int> numbers) {
     List<Widget> buttonList = numbers
         .map((buttonNumber) => buildNumberButton(
-      number: buttonNumber,
-      onPressed: () async {
-        if (pin.length < widget.maxLength) {
-          setState(() {
-            pin = pin + buttonNumber.toString();
-          });
-        }
-        widget.onChanged!(pin);
-        if (pin.length >= 4 && widget.onCompleted != null) {
-          widget.onCompleted!(pin);
-        }
-      },
-    ))
+              number: buttonNumber,
+              onPressed: () async {
+                if (pin.length < widget.maxLength) {
+                  setState(() {
+                    pin = pin + buttonNumber.toString();
+                  });
+                }
+                widget.onChanged!(pin);
+                if (pin.length >= 4 && widget.onCompleted != null) {
+                  widget.onCompleted!(pin);
+                }
+              },
+            ))
         .toList();
     return Expanded(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: buttonList,
-        ));
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: buttonList,
+    ));
   }
 
   Widget buildSpecialRow() {
@@ -123,11 +123,11 @@ class _PinAuthenticationState extends State<PinAuthentication> {
           buildNumberButton(
               icon: widget.useFingerprint!
                   ? Icon(
-                Icons.fingerprint,
-                key: const Key('fingerprint'),
-                color: widget.pinTheme.keysColor,
-                size: 50,
-              )
+                      Icons.fingerprint,
+                      key: const Key('fingerprint'),
+                      color: widget.pinTheme.keysColor,
+                      size: 50,
+                    )
                   : widget.specialKey ?? const SizedBox(),
               onPressed: widget.onSpecialKeyTap),
           buildNumberButton(
@@ -184,7 +184,7 @@ class _PinAuthenticationState extends State<PinAuthentication> {
     }
     return Scaffold(
       backgroundColor: widget.pinTheme.backgroundColor,
-      body:  MediaQuery.of(context).size.height > 600 ? Column(
+      body: Column(
         children: [
           const Expanded(
             child: SizedBox(),
@@ -252,91 +252,6 @@ class _PinAuthenticationState extends State<PinAuthentication> {
               ),
             ),
           )
-        ],
-      )
-          : Row(
-        children: [
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  widget.action ?? "Enter PIN",
-                  style: const TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  widget.actionDescription ?? "Please enter your pin to continue",
-                  style: const TextStyle(
-                    // color: Colors.white,
-                    fontSize: 14,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    for (int i = 0; i < widget.maxLength; i++)
-                      PinCodeField(
-                        key: Key('pinField$i'),
-                        pin: pin,
-                        pinCodeFieldIndex: i,
-                        theme: _pinTheme,
-                      ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 80,
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 80,
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
-                    child: Column(
-                      children: [
-                        buildNumberRow([1, 2, 3]),
-                        buildNumberRow([4, 5, 6]),
-                        buildNumberRow([7, 8, 9]),
-                        buildSpecialRow(),
-                      ],
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  key: const Key('submit'),
-                  onTap: () {
-                    widget.onbuttonClick!();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 30, 0, 50),
-                    child: Center(
-                      child: widget.submitLabel,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
         ],
       ),
     );
